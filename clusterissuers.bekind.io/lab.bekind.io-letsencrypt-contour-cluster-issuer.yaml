@@ -11,12 +11,12 @@ spec:
     solvers:
     - dns01:
         route53:
-          accessKeyID: AKIARPBECU6BDYQHFLUI
+          accessKeyID: AKIARPBECU6BBXNN5L44
           hostedZoneID: Z04408743JTEV2MFZLFYP # change for another DNS zone
           region: us-east-2
           secretAccessKeySecretRef:
             key: secret-access-key
-            name: prod-route53-credentials-secret
+            name: lab-route53-credentials-secret
     - http01:
         ingress:
           class: contour
