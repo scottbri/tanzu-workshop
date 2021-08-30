@@ -5,20 +5,20 @@ metadata:
   namespace: tanzu-system-registry
 spec:
   # Secret names are always required.
-  secretName: harbor-cert-tls
+  secretName: harbor-tls
   duration: 2160h # 90d
   renewBefore: 360h # 15d
   organization:
     - vmware
-  commonName: harbor.tanzu.bekind.io
+  commonName: harbor.CHANGED_VIA_SCRIPT.lab.bekind.io
   isCA: false
   keySize: 2048
   keyAlgorithm: rsa
   keyEncoding: pkcs1
   # At least one of a DNS Name, USI SAN, or IP address is required.
   dnsNames:
-    - harbor.tanzu.bekind.io
-    - notary.harbor.tanzu.bekind.io
+    - harbor.CHANGED_VIA_SCRIPT.lab.bekind.io
+    - notary.harbor.CHANGED_VIA_SCRIPT.lab.bekind.io
   # 
   issuerRef:
     name: letsencrypt-contour-cluster-issuer
