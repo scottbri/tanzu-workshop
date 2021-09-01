@@ -20,3 +20,36 @@ GITNAME="CHANGEME"                     # <<----- Change this
 
 git config --global user.email "$GITEMAIL"
 git config --global user.name "$GITNAME"
+
+###################
+## Build your docker config to enable login to registries 
+###################
+echo "What is your network.pivotal.io username (email)?"
+read INPUT_USER
+echo ""
+echo "What is your network.pivotal.io password?"
+read INPUT_PASS 
+
+export TANZUNETAUTH=$(echo "${INPUT_USER}:${INPUT_PASS}" | base64)
+unset INPUT_USER; unset INPUT_PASS
+
+HARBORUSER="cody"                     # <<----- Change this if needed
+HARBORPASSWORD="VMware1!"             # <<----- Change this if needed
+
+export HARBORAUTH=$(echo "${HARBORUSER}:${HARBORPASSWORD}" | base64)
+unset HARBORUSER; unset HARBORPASSWORD
+
+mkdir -p ~/.docker 2>&1
+touch ~/.docker/config.json || echo "ERROR:  Can't create ~/.docker/config.json"
+cat > ~/.docker/config.json  <<EOF
+{
+    "auths": {
+        "${HARBOR_CN}": {
+            "auth": "${HARBORAUTH}"
+        },
+        "registry.pivotal.io": {
+            "auth": "${TANUNETAUTH}"
+        }
+    }
+}
+EOF
