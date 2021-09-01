@@ -27,8 +27,8 @@ git config --global user.name "$GITNAME"
 echo "What is your network.pivotal.io username (email)?"
 read INPUT_USER
 echo ""
-echo "What is your network.pivotal.io password?"
-read INPUT_PASS 
+echo "What is your network.pivotal.io password (password hidden)?"
+read -s INPUT_PASS 
 
 export TANZUNETAUTH=$(echo "${INPUT_USER}:${INPUT_PASS}" | base64)
 unset INPUT_USER; unset INPUT_PASS
@@ -48,7 +48,7 @@ cat > ~/.docker/config.json  <<EOF
             "auth": "${HARBORAUTH}"
         },
         "registry.pivotal.io": {
-            "auth": "${TANUNETAUTH}"
+            "auth": "${TANZUNETAUTH}"
         }
     }
 }
