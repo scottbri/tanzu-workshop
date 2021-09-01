@@ -15,3 +15,8 @@ export HARBOR_PASSWORD="VMware1!"
 export HARBOR_GB="50Gi"
 export CLAIR_ENABLED=false
 
+GITEMAIL="CHANGEME"                    # <<----- Change this
+GITNAME="CHANGEME"                     # <<----- Change this
+
+git config --global user.email "$GITEMAIL"
+git config --global user.name "$GITNAME"
