@@ -1,17 +1,20 @@
 
-export TMC_APIKEY="CHANGEME"            # <<----- Change this
-export DOMAIN="CHANGEME.lab.bekind.io"  # <<----- Change this
-export SECRETKEY="CHANGEME"             # <<----- Change this
-export GITEMAIL="CHANGEME"              # <<----- Change this
-export GITNAME="CHANGEME"               # <<----- Change this
-export KUBECONFIG="~/.kube/config"      # <<----- Change this if needed
+export WORKSHOP_ID="CHANGEME"
+export TMC_API_TOKEN="CHANGEME"
+
+export SECRETKEY="CHANGEME"
+
+export GITEMAIL="CHANGEME"
+export GITNAME="CHANGEME"
 
 
 export EXTENSION_BUNDLE="tkg-extensions-v1.3.1+vmware.1"
 export EXTENSIONS="${EXTENSION_BUNDLE}/extensions"
+export KUBECONFIG="/home/${WORKSHOP_ID}/.kube/config"
 
 export ISSUER_REF="lab-cluster-issuer"
 
+export DOMAIN="${WORKSHOP_ID}.lab.bekind.io" 
 export ZONEID="Z04408743JTEV2MFZLFYP"
 export ACCESSKEY="AKIARPBECU6BBXNN5L44"
 
