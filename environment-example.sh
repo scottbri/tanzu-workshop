@@ -14,7 +14,8 @@ export KUBECONFIG="/home/${WORKSHOP_ID}/.kube/config"
 
 export ISSUER_REF="lab-cluster-issuer"
 
-export DOMAIN="${WORKSHOP_ID}.lab.bekind.io" 
+export BASE_DOMAIN=lab.bekind.io" 
+export DOMAIN="${WORKSHOP_ID}.${BASE_DOMAIN}" 
 export ZONEID="Z04408743JTEV2MFZLFYP"
 export ACCESSKEY="AKIARPBECU6BBXNN5L44"
 
