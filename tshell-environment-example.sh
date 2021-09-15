@@ -40,10 +40,10 @@ read -s INPUT_PASS
 
 export TANZUNETAUTH=$(echo -n "${INPUT_USER}:${INPUT_PASS}" | base64)
 
-HARBORUSER="cody"                     # <<----- Change this if needed
-HARBORPASSWORD="VMware1!"             # <<----- Change this if needed
+HARBOR_USER="cody"                     # <<----- Change this if needed
+HARBOR_PASS="VMware1!"             # <<----- Change this if needed
 
-export HARBORAUTH=$(echo -n "${HARBORUSER}:${HARBORPASSWORD}" | base64)
+export HARBORAUTH=$(echo -n "${HARBOR_USER}:${HARBOR_PASS}" | base64)
 
 mkdir -p ~/.docker 2>&1
 touch ~/.docker/config.json || echo "ERROR:  Can't create ~/.docker/config.json"
