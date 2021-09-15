@@ -38,14 +38,12 @@ echo ""
 echo "What is your network.pivotal.io password (password hidden)?"
 read -s INPUT_PASS 
 
-export TANZUNETAUTH=$(echo "${INPUT_USER}:${INPUT_PASS}" | base64)
-unset INPUT_USER; unset INPUT_PASS
+export TANZUNETAUTH=$(echo -n "${INPUT_USER}:${INPUT_PASS}" | base64)
 
 HARBORUSER="cody"                     # <<----- Change this if needed
 HARBORPASSWORD="VMware1!"             # <<----- Change this if needed
 
-export HARBORAUTH=$(echo "${HARBORUSER}:${HARBORPASSWORD}" | base64)
-unset HARBORUSER; unset HARBORPASSWORD
+export HARBORAUTH=$(echo -n "${HARBORUSER}:${HARBORPASSWORD}" | base64)
 
 mkdir -p ~/.docker 2>&1
 touch ~/.docker/config.json || echo "ERROR:  Can't create ~/.docker/config.json"

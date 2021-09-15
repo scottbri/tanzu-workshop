@@ -1,2 +1,6 @@
 tkg-extensions*/
 environment.sh
+tshell.yaml
+tmp/
+temp/
+
