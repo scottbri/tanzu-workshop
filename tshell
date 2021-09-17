@@ -25,7 +25,7 @@ kubectl create ns $NAMESPACE
 # deploy tanzu shell
 echo $TANZUPODYAML    | kubectl -n $NAMESPACE apply -f $TANZUPODYAML
 
-while [[ $(kubectl -n $NAMESPACE get pod ${TANZUPOD} -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 3; done
+while [[ $(kubectl -n $NAMESPACE get pod ${TANZUPOD} -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "Pod is large... waiting for pod to download and start running" && sleep 3; done
 echo "$TANZUPOD shell running"
 
 echo "copying active KUBECONFIG file to shell"
