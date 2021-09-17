@@ -10,7 +10,7 @@ export GITNAME="CHANGEME"
 
 export EXTENSION_BUNDLE="tkg-extensions-v1.3.1+vmware.1"
 export EXTENSIONS="${EXTENSION_BUNDLE}/extensions"
-export KUBECONFIG="/home/${WORKSHOP_ID}/.kube/config"
+export KUBECONFIG="${HOME}/.kube/config"
 
 export ISSUER_REF="lab-cluster-issuer"
 
