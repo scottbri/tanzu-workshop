@@ -58,17 +58,17 @@ then
 	mkdir -p ~/.docker 2>&1
 	touch ~/.docker/config.json || echo "ERROR:  Can't create ~/.docker/config.json"
 	cat > ~/.docker/config.json  <<EOF
-	{
-	    "auths": {
-		"${HARBOR_CN}": {
-		    "auth": "${HARBORAUTH}"
-		},
-		"registry.pivotal.io": {
-		    "auth": "${TANZUNETAUTH}"
-		}
-	    }
+{
+    "auths": {
+	"${HARBOR_CN}": {
+	    "auth": "${HARBORAUTH}"
+	},
+	"registry.pivotal.io": {
+	    "auth": "${TANZUNETAUTH}"
 	}
-	EOF
+    }
+}
+EOF
 fi
 echo ""
 
