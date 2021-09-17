@@ -7,6 +7,8 @@ export SECRETKEY="CHANGEME"
 export GITEMAIL="CHANGEME"
 export GITNAME="CHANGEME"
 
+export HARBOR_USER="cody"                 
+export HARBOR_PASS="VMware1!"             # <<----- Change this only if desired
 
 export EXTENSION_BUNDLE="tkg-extensions-v1.3.1+vmware.1"
 export EXTENSIONS="${EXTENSION_BUNDLE}/extensions"
@@ -21,12 +23,9 @@ export ACCESSKEY="AKIARPBECU6BBXNN5L44"
 
 export HARBOR_CN="harbor.${DOMAIN}"
 export NOTARY_CN="notary.${HARBOR_CN}"
-export HARBOR_PASSWORD="VMware1!"
+export HARBOR_PASSWORD="VMware1!"         # <<----- Change this for admin only if desired
 export HARBOR_GB="50Gi"
 export CLAIR_ENABLED=false
-
-export HARBOR_USER="cody"                 # <<----- Change this if needed
-export HARBOR_PASS="VMware1!"             # <<----- Change this if needed
 
 git config --global user.email "$GITEMAIL"
 git config --global user.name "$GITNAME"
