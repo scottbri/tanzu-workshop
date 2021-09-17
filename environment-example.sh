@@ -10,6 +10,7 @@ export GITNAME="CHANGEME"
 export HARBOR_USER="cody"                 
 export HARBOR_PASS="VMware1!"             # <<----- Change this only if desired
 
+export PATH=$PATH:${HOME}/bin
 export EXTENSION_BUNDLE="tkg-extensions-v1.3.1+vmware.1"
 export EXTENSIONS="${EXTENSION_BUNDLE}/extensions"
 export KUBECONFIG="${HOME}/.kube/config"
