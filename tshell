@@ -28,15 +28,27 @@ echo $TANZUPODYAML    | kubectl -n $NAMESPACE apply -f $TANZUPODYAML
 while [[ $(kubectl -n $NAMESPACE get pod ${TANZUPOD} -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "Pod is large... waiting for pod to download and start running" && sleep 3; done
 echo "$TANZUPOD shell running"
 
-echo "copying active KUBECONFIG file to shell"
-kubectl -n $NAMESPACE cp $KUBECONFIG ${TANZUPOD}:/home/tanzu/.kube/config
+if [ -z ${KUBECONFIG+x} ]; then 
+	echo "KUBECONFIG is not set."
+	KUBECONFIG="${HOME}/.kube/config" # set the default path to the KUBECONFIG
+else
+	echo "KUBECONFIG variable set to $KUBECONFIG"
+fi
+
+if [ -f "$KUBECONFIG" ]; then
+	echo "$KUBECONFIG file found.  Copying to tshell"
+	kubectl -n $NAMESPACE cp $KUBECONFIG ${TANZUPOD}:/home/tanzu/.kube/config
+else 
+	echo "$KUBECONFIG file not found.  Manually create kubeconfig in tshell."
+fi
+
 #kubectl -n $NAMESPACE cp ~/.kube-tkg ${TANZUPOD}:/home/tanzu/
 
 #echo "copying cluster configurations to shell"
 #kubectl -n $NAMESPACE cp clusters ${TANZUPOD}:/home/tanzu/
 
 echo "logging into ${TANZUPOD}"
-echo "Command: kubectl -n $NAMESPACE exec -it ${TANZUPOD} -- bash "
+echo "Command reference: kubectl -n $NAMESPACE exec -it ${TANZUPOD} -- bash "
 echo "" ; echo ""
 kubectl -n $NAMESPACE exec -it ${TANZUPOD} -- bash 
 
