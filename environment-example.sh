@@ -25,6 +25,8 @@ export HARBOR_PASSWORD="VMware1!"
 export HARBOR_GB="50Gi"
 export CLAIR_ENABLED=false
 
+export HARBOR_USER="cody"                 # <<----- Change this if needed
+export HARBOR_PASS="VMware1!"             # <<----- Change this if needed
 
 git config --global user.email "$GITEMAIL"
 git config --global user.name "$GITNAME"
@@ -32,9 +34,13 @@ git config --global user.name "$GITNAME"
 ###################
 ## Build your docker config to enable login to registries 
 ###################
-export HARBOR_USER="cody"                     # <<----- Change this if needed
-export HARBOR_PASS="VMware1!"             # <<----- Change this if needed
 
+echo "In preparation for the Tanzu Build Service portion of the workshop"
+echo " we need to set your docker credentials inside the tshell environment."
+echo " Only proceed if you have your network.pivotal.io credentials and you"
+echo " are sure you won't blow away important credentials on your local machine."
+echo ""
+echo "Are you logged into the tshell?"
 read -p "Is it safe to overwrite your .docker/config.json credentials?" -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
@@ -48,6 +54,8 @@ then
 	export TANZUNETAUTH=$(echo -n "${INPUT_USER}:${INPUT_PASS}" | base64)
 	export HARBORAUTH=$(echo -n "${HARBOR_USER}:${HARBOR_PASS}" | base64)
 
+	echo ""
+	echo "Writing your docker credentials to ~/.docker/config.json"
 	mkdir -p ~/.docker 2>&1
 	touch ~/.docker/config.json || echo "ERROR:  Can't create ~/.docker/config.json"
 	cat > ~/.docker/config.json  <<EOF
@@ -63,4 +71,5 @@ then
 	}
 	EOF
 fi
+echo ""
 
