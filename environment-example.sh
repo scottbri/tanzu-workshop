@@ -40,7 +40,7 @@ echo " Only proceed if you have your network.pivotal.io credentials and you"
 echo " are sure you won't blow away important credentials on your local machine."
 echo ""
 echo "Are you logged into the tshell?"
-read -p "Is it safe to overwrite your .docker/config.json credentials?" -n 1 -r
+read -p "Is it safe to overwrite your .docker/config.json credentials? " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
@@ -49,6 +49,7 @@ then
 	echo ""
 	echo "What is your network.pivotal.io password (password hidden)?"
 	read -s INPUT_PASS 
+	echo "Captured your `echo -n $INPUT_PASS | wc -m` character password"
 
 	export TANZUNETAUTH=$(echo -n "${INPUT_USER}:${INPUT_PASS}" | base64)
 	export HARBORAUTH=$(echo -n "${HARBOR_USER}:${HARBOR_PASS}" | base64)
