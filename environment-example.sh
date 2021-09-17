@@ -14,8 +14,8 @@ export KUBECONFIG="/home/${WORKSHOP_ID}/.kube/config"
 
 export ISSUER_REF="lab-cluster-issuer"
 
-export BASE_DOMAIN="lab.bekind.io" 
-export DOMAIN="${WORKSHOP_ID}.${BASE_DOMAIN}" 
+export BASE_DOMAIN="lab.bekind.io"
+export DOMAIN="${WORKSHOP_ID}.${BASE_DOMAIN}"
 export ZONEID="Z04408743JTEV2MFZLFYP"
 export ACCESSKEY="AKIARPBECU6BBXNN5L44"
 
@@ -28,4 +28,39 @@ export CLAIR_ENABLED=false
 
 git config --global user.email "$GITEMAIL"
 git config --global user.name "$GITNAME"
+
+###################
+## Build your docker config to enable login to registries 
+###################
+export HARBOR_USER="cody"                     # <<----- Change this if needed
+export HARBOR_PASS="VMware1!"             # <<----- Change this if needed
+
+read -p "Is it safe to overwrite your .docker/config.json credentials?" -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+	echo "What is your network.pivotal.io username (email)?"
+	read INPUT_USER
+	echo ""
+	echo "What is your network.pivotal.io password (password hidden)?"
+	read -s INPUT_PASS 
+
+	export TANZUNETAUTH=$(echo -n "${INPUT_USER}:${INPUT_PASS}" | base64)
+	export HARBORAUTH=$(echo -n "${HARBOR_USER}:${HARBOR_PASS}" | base64)
+
+	mkdir -p ~/.docker 2>&1
+	touch ~/.docker/config.json || echo "ERROR:  Can't create ~/.docker/config.json"
+	cat > ~/.docker/config.json  <<EOF
+	{
+	    "auths": {
+		"${HARBOR_CN}": {
+		    "auth": "${HARBORAUTH}"
+		},
+		"registry.pivotal.io": {
+		    "auth": "${TANZUNETAUTH}"
+		}
+	    }
+	}
+	EOF
+fi
 
