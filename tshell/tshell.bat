@@ -21,4 +21,4 @@ echo "Launch bash in the tshell"
 echo "Command reference: kubectl -n tshell exec tshell -it -- bash"
 kubectl -n tshell exec tshell -it -- bash
 
-rm %TEMPKUBE%
+del %TEMPKUBE%
