@@ -56,5 +56,3 @@ echo "logging into ${TANZUPOD}"
 echo "Command reference: kubectl -n $NAMESPACE exec -it ${TANZUPOD} -- bash "
 echo "" ; echo ""
 kubectl -n $NAMESPACE exec -it ${TANZUPOD} -- bash 
-
-rm ${TANZUPOD}.yaml
