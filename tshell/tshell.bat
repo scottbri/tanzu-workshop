@@ -10,7 +10,8 @@ echo Ensure tshell namespace and pod are created on cluster
 kubectl create -f "%YAMLURL%" 
 
 echo -
-echo When tshell pod is Running.  Hit ctrl-c to continue
+echo When tshell pod is Running.  Hit ctrl-c to continue.
+echo Type N at the prompt.  Do not cancel the bash script.
 kubectl -n tshell get pod/tshell -w
 
 echo Copy KUBECONFIG to tshell
