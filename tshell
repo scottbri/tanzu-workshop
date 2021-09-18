@@ -8,7 +8,7 @@ if [ -z ${KUBECONFIG+x} ]; then
 	echo "KUBECONFIG is not set."
 	KUBECONFIG="${HOME}/.kube/config" # set the default path to the KUBECONFIG
 else
-	echo "KUBECONFIG variable set to $KUBECONFIG"
+	echo "KUBECONFIG set to $KUBECONFIG"
 fi
 
 if [ ! -f "$KUBECONFIG" ]; then
@@ -16,7 +16,8 @@ if [ ! -f "$KUBECONFIG" ]; then
 	exit 1
 fi
 
-cat > $TANZUPODYAML <<EOF
+#cat > $TANZUPODYAML <<EOF
+TANZUPODYAML= $(cat <<EOF
 ---
 apiVersion: v1
 kind: Pod
@@ -30,12 +31,13 @@ spec:
     args:
     - "sleep"
     - "1d"
-EOF
+EOF)
 
-kubectl create ns $NAMESPACE
+kubectl create ns $NAMESPACE 2>&1
 
 # deploy tanzu shell
-echo $TANZUPODYAML    | kubectl -n $NAMESPACE apply -f $TANZUPODYAML
+#echo $TANZUPODYAML    | kubectl -n $NAMESPACE apply -f $TANZUPODYAML
+echo $TANZUPODYAML    | kubectl -n $NAMESPACE apply -f-
 
 while [[ $(kubectl -n $NAMESPACE get pod ${TANZUPOD} -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "Pod is large... waiting for pod to download and start running" && sleep 3; done
 echo "$TANZUPOD shell running"
