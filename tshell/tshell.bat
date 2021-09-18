@@ -1,7 +1,7 @@
 @echo off
 
 set TEMPKUBE=temp-kube-config.yaml
-set YAMLURL="https://raw.githubusercontent.com/scottbri/tanzu-workshop/main/tshell.yaml"
+set YAMLURL="https://raw.githubusercontent.com/scottbri/tanzu-workshop/main/tshell/tshell.yaml"
 
 kubectl config view --raw > %TEMPKUBE%
 
