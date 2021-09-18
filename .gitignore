@@ -1,6 +1,5 @@
 tkg-extensions*/
 environment.sh
-tshell.yaml
 tmp/
 temp/
 harbor/harbor-letsencrypt-ca.pem

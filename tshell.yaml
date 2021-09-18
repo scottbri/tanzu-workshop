@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tshell
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tshell
+  namespace: tshell
+spec:
+  containers:
+  - name: tshell
+    image: harbor.tanzu.bekind.io/demoapps/tanzu-shell:latest
+    args:
+    - "sleep"
+    - "1d"
