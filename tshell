@@ -17,7 +17,7 @@ if [ ! -f "$KUBECONFIG" ]; then
 fi
 
 #cat > $TANZUPODYAML <<EOF
-TANZUPODYAML=$(cat <<'EOF'
+TANZUPODYAML=$(cat <<EOF
 ---
 apiVersion: v1
 kind: Pod
