@@ -34,9 +34,10 @@ spec:
 EOF
 )
 
+echo "Ensure $NAMESPACE exists"
 kubectl create ns $NAMESPACE 2>&1
 
-# deploy tanzu shell
+echo "Deploy tanzu shell"
 #echo $TANZUPODYAML    | kubectl -n $NAMESPACE apply -f $TANZUPODYAML
 echo "$TANZUPODYAML"    | kubectl -n $NAMESPACE apply -f-
 
