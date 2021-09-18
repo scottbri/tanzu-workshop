@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TEMPKUBE=temp-kube-config.yaml
-YAMLURL="https://raw.githubusercontent.com/scottbri/tanzu-workshop/main/tshell.yaml"
+YAMLURL="https://raw.githubusercontent.com/scottbri/tanzu-workshop/main/tshell/tshell.yaml"
 
 kubectl config view --raw > $TEMPKUBE
 
