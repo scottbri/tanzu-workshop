@@ -4,6 +4,18 @@ TANZUPOD=tshell
 NAMESPACE=tshell
 TANZUPODYAML="${TANZUPOD}.yaml"
 
+if [ -z ${KUBECONFIG+x} ]; then 
+	echo "KUBECONFIG is not set."
+	KUBECONFIG="${HOME}/.kube/config" # set the default path to the KUBECONFIG
+else
+	echo "KUBECONFIG variable set to $KUBECONFIG"
+fi
+
+if [ ! -f "$KUBECONFIG" ]; then
+	echo "$KUBECONFIG file not found.  Exiting"
+	exit 1
+fi
+
 cat > $TANZUPODYAML <<EOF
 ---
 apiVersion: v1
@@ -28,19 +40,8 @@ echo $TANZUPODYAML    | kubectl -n $NAMESPACE apply -f $TANZUPODYAML
 while [[ $(kubectl -n $NAMESPACE get pod ${TANZUPOD} -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "Pod is large... waiting for pod to download and start running" && sleep 3; done
 echo "$TANZUPOD shell running"
 
-if [ -z ${KUBECONFIG+x} ]; then 
-	echo "KUBECONFIG is not set."
-	KUBECONFIG="${HOME}/.kube/config" # set the default path to the KUBECONFIG
-else
-	echo "KUBECONFIG variable set to $KUBECONFIG"
-fi
-
-if [ -f "$KUBECONFIG" ]; then
-	echo "$KUBECONFIG file found.  Copying to tshell"
-	kubectl -n $NAMESPACE cp $KUBECONFIG ${TANZUPOD}:/home/tanzu/.kube/config
-else 
-	echo "$KUBECONFIG file not found.  Manually create kubeconfig in tshell."
-fi
+echo "Copying KUBECONFIG to tshell"
+kubectl -n $NAMESPACE cp $KUBECONFIG ${TANZUPOD}:/home/tanzu/.kube/config
 
 #kubectl -n $NAMESPACE cp ~/.kube-tkg ${TANZUPOD}:/home/tanzu/
 
