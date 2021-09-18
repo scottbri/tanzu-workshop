@@ -17,7 +17,7 @@ if [ ! -f "$KUBECONFIG" ]; then
 fi
 
 #cat > $TANZUPODYAML <<EOF
-TANZUPODYAML= $(cat <<EOF
+TANZUPODYAML=$(cat <<'EOF'
 ---
 apiVersion: v1
 kind: Pod
@@ -31,7 +31,8 @@ spec:
     args:
     - "sleep"
     - "1d"
-EOF)
+EOF
+)
 
 kubectl create ns $NAMESPACE 2>&1
 
