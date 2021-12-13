@@ -1,21 +1,46 @@
 #!/bin/bash
+IMAGE=${1:-tkg} # or tce
+TANZUPOD=tshell
+NAMESPACE=tshell
+TANZUPODYAML="${TANZUPOD}.yaml"
 
-TEMPKUBE=temp-kube-config.yaml
-YAMLURL="https://raw.githubusercontent.com/scottbri/tanzu-workshop/main/tshell/tshell.yaml"
+echo "Using latest $IMAGE image.  Specify tkg or tce as a parameter to choose."
 
-kubectl config view --raw > $TEMPKUBE
+cat > $TANZUPODYAML <<EOF
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: $TANZUPOD
+  namespace: $NAMESPACE
+spec:
+  containers:
+  - name: $TANZUPOD
+    image: harbor.tanzu.bekind.io/demoapps/${IMAGE}-shell:latest
+    args:
+    - "sleep"
+    - "1d"
+EOF
 
-echo "Ensure tshell namespace and pod are created on cluster"
-kubectl create -f "$YAMLURL" 2>/dev/null
+kubectl create ns $NAMESPACE
 
-echo ""; echo "When tshell pod is Running.  Hit <ctrl>-c to continue"
-kubectl -n tshell get pod/tshell -w
+# deploy tanzu shell
+echo $TANZUPODYAML    | kubectl -n $NAMESPACE apply -f $TANZUPODYAML
 
-echo ""; echo "Copy KUBECONFIG to tshell"
-kubectl cp $TEMPKUBE tshell/tshell:/home/tanzu/.kube/config
+while [[ $(kubectl -n $NAMESPACE get pod ${TANZUPOD} -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 3; done
+echo "$TANZUPOD shell running"
 
-echo "Launch bash in the tshell"
-echo ""; echo "Command reference: kubectl -n tshell exec tshell -it -- bash"
-kubectl -n tshell exec tshell -it -- bash
+echo "copying active KUBECONFIG file to shell"
+kubectl -n $NAMESPACE cp $KUBECONFIG ${TANZUPOD}:/home/tanzu/.kube/config
+#kubectl -n $NAMESPACE cp ~/.kube-tkg ${TANZUPOD}:/home/tanzu/
 
-rm $TEMPKUBE
+#echo "copying cluster configurations to shell"
+#kubectl -n $NAMESPACE cp clusters ${TANZUPOD}:/home/tanzu/
+
+echo "logging into ${TANZUPOD}"
+echo "Command: kubectl -n $NAMESPACE exec -it ${TANZUPOD} -- bash "
+echo "" ; echo ""
+kubectl -n $NAMESPACE exec -it ${TANZUPOD} -- bash 
+
+rm ${TANZUPOD}.yaml
+

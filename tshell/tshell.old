@@ -1,58 +1,21 @@
 #!/bin/bash
 
-TANZUPOD=tshell
-NAMESPACE=tshell
-TANZUPODYAML="${TANZUPOD}.yaml"
+TEMPKUBE=temp-kube-config.yaml
+YAMLURL="https://raw.githubusercontent.com/scottbri/tanzu-workshop/main/tshell/tshell.yaml"
 
-if [ -z ${KUBECONFIG+x} ]; then 
-	echo "KUBECONFIG is not set."
-	KUBECONFIG="${HOME}/.kube/config" # set the default path to the KUBECONFIG
-else
-	echo "KUBECONFIG set to $KUBECONFIG"
-fi
+kubectl config view --raw > $TEMPKUBE
 
-if [ ! -f "$KUBECONFIG" ]; then
-	echo "$KUBECONFIG file not found.  Exiting"
-	exit 1
-fi
+echo "Ensure tshell namespace and pod are created on cluster"
+kubectl create -f "$YAMLURL" 2>/dev/null
 
-#cat > $TANZUPODYAML <<EOF
-TANZUPODYAML=$(cat <<EOF
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: $TANZUPOD
-  namespace: $NAMESPACE
-spec:
-  containers:
-  - name: $TANZUPOD
-    image: harbor.tanzu.bekind.io/demoapps/tanzu-shell:latest
-    args:
-    - "sleep"
-    - "1d"
-EOF
-)
+echo ""; echo "When tshell pod is Running.  Hit <ctrl>-c to continue"
+kubectl -n tshell get pod/tshell -w
 
-echo "Ensure namespace $NAMESPACE exists"
-kubectl create ns $NAMESPACE 2>/dev/null
+echo ""; echo "Copy KUBECONFIG to tshell"
+kubectl cp $TEMPKUBE tshell/tshell:/home/tanzu/.kube/config
 
-echo "Deploy tanzu shell"
-#echo $TANZUPODYAML    | kubectl -n $NAMESPACE apply -f $TANZUPODYAML
-echo "$TANZUPODYAML"    | kubectl -n $NAMESPACE apply -f-
+echo "Launch bash in the tshell"
+echo ""; echo "Command reference: kubectl -n tshell exec tshell -it -- bash"
+kubectl -n tshell exec tshell -it -- bash
 
-while [[ $(kubectl -n $NAMESPACE get pod ${TANZUPOD} -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "Pod is large... waiting for pod to download and start running" && sleep 3; done
-echo "$TANZUPOD shell running"
-
-echo "Copying KUBECONFIG to tshell"
-kubectl -n $NAMESPACE cp $KUBECONFIG ${TANZUPOD}:/home/tanzu/.kube/config
-
-#kubectl -n $NAMESPACE cp ~/.kube-tkg ${TANZUPOD}:/home/tanzu/
-
-#echo "copying cluster configurations to shell"
-#kubectl -n $NAMESPACE cp clusters ${TANZUPOD}:/home/tanzu/
-
-echo "logging into ${TANZUPOD}"
-echo "Command reference: kubectl -n $NAMESPACE exec -it ${TANZUPOD} -- bash "
-echo "" ; echo ""
-kubectl -n $NAMESPACE exec -it ${TANZUPOD} -- bash 
+rm $TEMPKUBE
