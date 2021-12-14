@@ -4,9 +4,9 @@ CLUSTER_NAME: TEMPLATE # Added by scripts
 AWS_VPC_ID: vpc-0da8f23a94885059a # Added by scripts
 AWS_PUBLIC_SUBNET_ID: subnet-084ef6790faa5b919 # Added by scripts
 AWS_PRIVATE_SUBNET_ID: subnet-07f8aeeb21e5ba443 # Added by scripts
-WORKER_MACHINE_COUNT: 1 # Added by scripts
+WORKER_MACHINE_COUNT: 2 # Added by scripts
 CONTROL_PLANE_MACHINE_TYPE: t3.large # t3.large c5.large
-NODE_MACHINE_TYPE: c5.xlarge # c5.large c5.xlarge
+NODE_MACHINE_TYPE: m5.xlarge # c5.large c5.xlarge
 CLUSTER_PLAN: dev # default is blank
 TKG_HTTP_PROXY_ENABLED: "false" # default is blank
 ENABLE_MHC: "true" # default is blank
