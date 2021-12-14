@@ -18,5 +18,6 @@ then
 	tanzu cluster create ${CLUSTER} -v 9  --file ${CLUSTER}/config-${CLUSTER}.yaml
 
 	tanzu cluster kubeconfig get ${CLUSTER} --admin --export-file ${CLUSTER}/kubeconfig-${CLUSTER}.yaml
+	cp ${CLUSTER}/kubeconfig-${CLUSTER}.yaml ~/.kube/config
 
 fi
