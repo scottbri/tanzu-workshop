@@ -1,7 +1,6 @@
 set -e
 
-CLUSTER=${1:-lab${RANDOM}}
-
+CLUSTER=${WORKSHOP_ID}
 
 echo "Using cluster name ${CLUSTER}"
 read -p "Do you want to continue? " -n 1 -r
