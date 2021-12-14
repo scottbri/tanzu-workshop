@@ -3,7 +3,7 @@ set -e
 CLUSTER=${1:-lab${RANDOM}}
 
 
-echo "Using cluster name ${CLUSTER} with IP address ${VSPHERE_CONTROL_PLANE_ENDPOINT}"
+echo "Using cluster name ${CLUSTER}"
 read -p "Do you want to continue? " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
